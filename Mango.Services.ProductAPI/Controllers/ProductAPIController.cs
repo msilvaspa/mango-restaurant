@@ -22,6 +22,7 @@ public class ProductApiController: ControllerBase
         {
             var productsDto = await _productRepository.GetProducts();
             response.Result = productsDto;
+        Console.WriteLine(productsDto);
         }
         catch (Exception e)
         {

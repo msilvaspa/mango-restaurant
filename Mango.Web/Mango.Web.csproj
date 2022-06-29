@@ -11,4 +11,20 @@
       <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Compile Remove="Pages\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <EmbeddedResource Remove="Pages\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="Pages\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Content Remove="Pages\**" />
+    </ItemGroup>
+
 </Project>
