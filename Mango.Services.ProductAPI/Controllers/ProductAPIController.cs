@@ -7,12 +7,12 @@ namespace Mango.Services.ProductAPI.Controllers;
 [Route("api/products")]
 public class ProductApiController: ControllerBase
 {
-    private ResponseDto response;
+    private ResponseDto _response;
     private readonly IProductRepository _productRepository;
     public ProductApiController(IProductRepository productRepository)
     {
         _productRepository = productRepository;
-        response = new ResponseDto();
+        _response = new ResponseDto();
     }
     
     [HttpGet]
@@ -21,16 +21,15 @@ public class ProductApiController: ControllerBase
         try
         {
             var productsDto = await _productRepository.GetProducts();
-            response.Result = productsDto;
-        Console.WriteLine(productsDto);
+            _response.Result = productsDto;
         }
         catch (Exception e)
         {
-            response.IsSuccess = false;
-            response.ErrorMessage = new List<string>(){e.ToString()};
+            _response.IsSuccess = false;
+            _response.ErrorMessage = new List<string>(){e.ToString()};
         }
 
-        return response;
+        return _response;
     }
     
     [HttpGet("{id}")]
@@ -39,15 +38,15 @@ public class ProductApiController: ControllerBase
         try
         {
             var productDto = await _productRepository.GetProductById(id);
-            response.Result = productDto;
+            _response.Result = productDto;
         }
         catch (Exception e)
         {
-            response.IsSuccess = false;
-            response.ErrorMessage = new List<string>(){e.ToString()};
+            _response.IsSuccess = false;
+            _response.ErrorMessage = new List<string>(){e.ToString()};
         }
-
-        return response;
+        Console.WriteLine(_response.Result);
+        return _response;
     }
     
     [HttpPost]
@@ -56,15 +55,15 @@ public class ProductApiController: ControllerBase
         try
         {
             var product = await _productRepository.CreateUpdateProduct(productDto);
-            response.Result = product;
+            _response.Result = product;
         }
         catch (Exception e)
         {
-            response.IsSuccess = false;
-            response.ErrorMessage = new List<string>(){e.ToString()};
+            _response.IsSuccess = false;
+            _response.ErrorMessage = new List<string>(){e.ToString()};
         }
 
-        return response;
+        return _response;
     }
     
     [HttpPut]
@@ -73,31 +72,32 @@ public class ProductApiController: ControllerBase
         try
         {
             var product = await _productRepository.CreateUpdateProduct(productDto);
-            response.Result = product;
+            _response.Result = product;
         }
         catch (Exception e)
         {
-            response.IsSuccess = false;
-            response.ErrorMessage = new List<string>(){e.ToString()};
+            _response.IsSuccess = false;
+            _response.ErrorMessage = new List<string>(){e.ToString()};
         }
 
-        return response;
+        return _response;
     }
     
     [HttpDelete]
-    public async Task<object> DeleteProduct(int id)
+    [Route("{id}")]
+    public async Task<object> Delete(int id)
     {
         try
         {
-            var product = await _productRepository.DeleteProduct(id);
-            response.Result = product;
+            bool isSuccess = await _productRepository.DeleteProduct(id);
+            _response.Result = isSuccess;
         }
-        catch (Exception e)
+        catch (Exception ex)
         {
-            response.IsSuccess = false;
-            response.ErrorMessage = new List<string>(){e.ToString()};
+            _response.IsSuccess = false;
+            _response.ErrorMessage
+                = new List<string>() { ex.ToString() };
         }
-
-        return response;
+        return _response;
     }
 }

@@ -49,6 +49,7 @@ public class BaseService: IBaseService
                 
             }
             apiResponse = await client.SendAsync(message);
+            Console.WriteLine(apiResponse.StatusCode);
             var apiContent = await apiResponse.Content.ReadAsStringAsync();
             var apiResponseDto = JsonConvert.DeserializeObject<T>(apiContent);
             return apiResponseDto;

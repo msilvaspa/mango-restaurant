@@ -5,11 +5,8 @@ namespace Mango.Web.Services;
 
 public class ProductService : BaseService, IProductService
 {
-    private readonly IHttpClientFactory _httpClientFactory;
-
     public ProductService(IHttpClientFactory httpClientFactory): base(httpClientFactory)
     {
-        _httpClientFactory = httpClientFactory;
     }
 
     public async Task<T> CreateProductAsync<T>(ProductDto product)
@@ -28,7 +25,7 @@ public class ProductService : BaseService, IProductService
         return await this.SendAsync<T>(new ApiRequest()
         {
             ApiType = SD.ApiType.DELETE,
-            Url = SD.ProductAPIBase + "/api/products" + id,
+            Url = SD.ProductAPIBase + "/api/products/" + id,
             AccessToken = ""
         });
     }
@@ -48,7 +45,7 @@ public class ProductService : BaseService, IProductService
         return await this.SendAsync<T>(new ApiRequest()
         {
             ApiType = SD.ApiType.GET,
-            Url = SD.ProductAPIBase + "/api/products" + id,
+            Url = SD.ProductAPIBase + "/api/products/" + id,
             AccessToken = ""
         });
     }
